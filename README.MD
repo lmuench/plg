@@ -33,8 +33,8 @@ Example: *foobar.json*
 ```
 {
   "services": [
-    { "interface": "bar", "name": "foobar" },
-    { "interface": "baz", "name": "foobaz" }
+    { "interface": "bar", "function": "foobar" },
+    { "interface": "baz", "function": "foobaz" }
   ]
 }
 ```
