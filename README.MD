@@ -6,7 +6,7 @@
 |         Application          |
 |               +-+----------+ |   +--------+
 |               |A|   plg    |---->| plugin |
-|               |P| service  | |   +--------+
+|               |P|  symbol  | |   +--------+
 |               |I| registry |---->| plugin |
 |               +-+ +------+ | |   +--------+
 |                 | | gRPC | | |   +---------+
@@ -36,8 +36,8 @@ Example: *foobar.json*
 ```
 {
   "services": [
-    { "interface": "bar", "function": "foobar" },
-    { "interface": "baz", "function": "foobaz" }
+    { "interface": "bar", "symbol": "foobar" },
+    { "interface": "baz", "symbol": "foobaz" }
   ]
 }
 ```
