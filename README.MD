@@ -1,3 +1,5 @@
+# :electric_plug:plg
+
 ## Architecture
 ```
 +------------------------------+
