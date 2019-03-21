@@ -1,8 +1,6 @@
 package plg
 
-import (
-	"plugin"
-)
+import "plugin"
 
 type PLG struct {
 	registry registry

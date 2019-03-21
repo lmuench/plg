@@ -20,7 +20,7 @@
 
 package main
 
-import "github.com/lmuench/plg/cli/cmd"
+import "github.com/lmuench/plg/cmd"
 
 func main() {
 	cmd.Execute()

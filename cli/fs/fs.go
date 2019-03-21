@@ -12,9 +12,7 @@ func Ls() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	pluginsDir := filepath.Join(wd, "plugins")
-
-	dir, err := os.Open(pluginsDir)
+	dir, err := os.Open(wd)
 	if err != nil {
 		log.Fatal(err)
 	}
