@@ -19,7 +19,7 @@
 ## Plugins
 Example: *foobar.go*
 ```
-package main
+package foobar
 
 func foobar() {
   // ...
