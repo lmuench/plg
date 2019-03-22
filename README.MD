@@ -17,38 +17,39 @@
 ```
 
 ## Plugins
-Example: *foobar.go*
+Example: *greet.go*
 ```
-package foobar
+package plugins
 
-func foobar() {
-  // ...
+import "fmt"
+
+type greeter struct{}
+
+func (g greeter) Greet(name string) {
+	fmt.Println("Hello " + name)
 }
 
-func foobaz() {
-  // ...
-}
+// Greeter will be exported as symbol "Greeter"
+var Greeter greeter
 ```
 
 ## Metadata
 ### Plugin Metadata
-Example: *foobar.json*
+Example: *greet.json*
 ```
 {
   "services": [
-    { "interface": "bar", "symbol": "foobar" },
-    { "interface": "baz", "symbol": "foobaz" }
+    { "interface": "Greeter", "symbol": "Greet" }
   ]
 }
 ```
 
 ### Application metadata
-Example: *foo.json*
+Example: *app.json*
 ```
 {
   "dependencies": [
-    { "interface": "bar", "required": true },
-    { "interface": "baz", "required": true }
+    { "interface": "Greeter", "required": true }
   ]
 }
 ```
