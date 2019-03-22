@@ -18,7 +18,7 @@
 
 ## Plugins
 Example: *greet.go*
-```
+```go
 package main
 
 import "fmt"
@@ -36,7 +36,7 @@ var Greeter greeter
 ## Metadata
 ### Plugin Metadata
 Example: *greet.json*
-```
+```json
 {
   "services": [
     { "interface": "Greeter", "symbol": "Greet" }
@@ -46,7 +46,7 @@ Example: *greet.json*
 
 ### Application metadata
 Example: *app.json*
-```
+```json
 {
   "dependencies": [
     { "interface": "Greeter", "required": true }
