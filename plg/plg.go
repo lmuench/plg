@@ -8,8 +8,8 @@ type PLG struct {
 type registry map[string][]*Service
 
 type Service struct {
-	IFace  string
-	Symbol plugin.Symbol
+	IFace string
+	Symb  plugin.Symbol
 }
 
 func NewPLG(plugPath string) PLG {
@@ -28,7 +28,7 @@ func (plg PLG) GetSymbol(iface string) (plugin.Symbol, bool) {
 	if service == nil {
 		return nil, false
 	}
-	return service.Symbol, true
+	return service.Symb, true
 }
 
 func (plg PLG) RegisterPlugin(iface string, plug plugin.Plugin) error {
@@ -42,8 +42,8 @@ func (plg PLG) RegisterPlugin(iface string, plug plugin.Plugin) error {
 
 func (plg PLG) registerSymbol(iface string, symb plugin.Symbol) {
 	service := Service{
-		IFace:  iface,
-		Symbol: symb,
+		IFace: iface,
+		Symb:  symb,
 	}
 	plg.registry[iface] = append(plg.registry[iface], &service)
 }

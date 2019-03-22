@@ -19,7 +19,7 @@
 ## Plugins
 Example: *greet.go*
 ```
-package plugins
+package main
 
 import "fmt"
 

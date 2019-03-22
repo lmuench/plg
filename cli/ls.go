@@ -1,4 +1,4 @@
-package fs
+package cli
 
 import (
 	"encoding/json"
@@ -8,15 +8,6 @@ import (
 	"os"
 	"path/filepath"
 )
-
-type PlugMetadata struct {
-	Services []IFaceAndSymb
-}
-
-type IFaceAndSymb struct {
-	IFace string `json:"interface"`
-	Symb  string `json:"symbol"`
-}
 
 func Ls() {
 	wd, err := os.Getwd()
@@ -44,13 +35,13 @@ func Ls() {
 			if err != nil {
 				fmt.Print("↳ error: metadata (", name, ".json) is missing!\n")
 			} else {
-				var metadata PlugMetadata
-				err = json.Unmarshal(data, &metadata)
+				var plugMeta PlugMetadata
+				err = json.Unmarshal(data, &plugMeta)
 				if err != nil {
 					fmt.Print("↳ error: metadata parsing error (", err, ")\n")
 				}
-				for _, ias := range metadata.Services {
-					fmt.Print("↳ interface: ", ias.IFace, ", symbol: ", ias.Symb, "\n")
+				for _, symbMeta := range plugMeta.Services {
+					fmt.Print("↳ interface: ", symbMeta.IFace, ", symbol: ", symbMeta.Symb, "\n")
 				}
 			}
 		}
