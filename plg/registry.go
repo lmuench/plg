@@ -1,6 +1,9 @@
 package plg
 
-import "plugin"
+import (
+	"fmt"
+	"plugin"
+)
 
 type PLG struct {
 	registry registry
@@ -31,7 +34,12 @@ func (plg PLG) GetSymbol(iface string) (plugin.Symbol, bool) {
 	return service.Symb, true
 }
 
-func (plg PLG) RegisterPlugin(iface string, plug plugin.Plugin) error {
+func (plg PLG) RegisterPlugin(iface string, absObjPath string) error {
+	plug, err := plugin.Open(absObjPath)
+	if err != nil {
+		fmt.Println("error: could not open plugin", absObjPath)
+		return err
+	}
 	symb, err := plug.Lookup(iface)
 	if err != nil {
 		return err
@@ -46,4 +54,5 @@ func (plg PLG) registerSymbol(iface string, symb plugin.Symbol) {
 		Symb:  symb,
 	}
 	plg.registry[iface] = append(plg.registry[iface], &service)
+	fmt.Println("registered symbol with interface:", iface)
 }
