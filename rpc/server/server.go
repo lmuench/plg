@@ -19,7 +19,11 @@ type server struct {
 }
 
 func (s *server) RegisterPlugin(ctx context.Context, in *pb.Plugin) (*pb.Error, error) {
-	log.Printf("Received interface: %s object: %s", in.Iface, in.AbsObjPath)
+	log.Printf("Received absolute object path: %s", in.AbsObjPath)
+	err := s.plg.RegisterPlugin(in.AbsObjPath)
+	if err != nil {
+		return nil, err
+	}
 	return &pb.Error{Msg: "ok"}, nil
 }
 

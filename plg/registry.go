@@ -1,19 +1,12 @@
 package plg
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
+	"io/ioutil"
 	"plugin"
 )
-
-type PLG struct {
-	registry registry
-}
-type registry map[string][]*Service
-
-type Service struct {
-	IFace string
-	Symb  plugin.Symbol
-}
 
 func NewPLG() *PLG {
 	return &PLG{registry: registry{}}
@@ -32,18 +25,41 @@ func (plg PLG) GetSymbol(iface string) (plugin.Symbol, bool) {
 	return service.Symb, true
 }
 
-func (plg PLG) RegisterPlugin(iface string, absObjPath string) error {
+func (plg PLG) RegisterPlugin(absObjPath string) error {
 	plug, err := plugin.Open(absObjPath)
 	if err != nil {
 		fmt.Println("error: could not open plugin", absObjPath)
 		return err
 	}
-	symb, err := plug.Lookup(iface)
+
+	plugMeta, err := readPlugMetadata(absObjPath[:len(absObjPath)-3])
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
-	plg.registerSymbol(iface, symb)
+
+	for _, symbMeta := range plugMeta.Services {
+		symb, err := plug.Lookup(symbMeta.Symb)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			plg.registerSymbol(symbMeta.IFace, symb)
+		}
+	}
 	return nil
+}
+
+func readPlugMetadata(absPlugPath string) (*PlugMetadata, error) {
+	data, err := ioutil.ReadFile(absPlugPath + ".json")
+	if err != nil {
+		return nil, errors.New("cannot read metadata (" + absPlugPath + ".json)")
+	}
+	var plugMeta PlugMetadata
+	err = json.Unmarshal(data, &plugMeta)
+	if err != nil {
+		return nil, err
+	}
+	return &plugMeta, nil
 }
 
 func (plg PLG) registerSymbol(iface string, symb plugin.Symbol) {

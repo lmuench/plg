@@ -7,8 +7,7 @@ service Registry {
 }
 
 message Plugin {
-	string iface = 1;
-	string absObjPath = 2;
+	string absObjPath = 1;
 }
 
 message Error {

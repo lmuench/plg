@@ -23,8 +23,7 @@ func Install(plug string) error {
 	if err != nil {
 		fmt.Print("error: ", plug, " could not be compiled (", err, ")\n")
 	}
-	// TODO: read iface string from metadata
-	return register("MockIFace", absObjPath)
+	return register(absObjPath)
 }
 
 func compile(name string) (string, error) {
@@ -47,7 +46,7 @@ func compile(name string) (string, error) {
 	return absObjPath, nil
 }
 
-func register(iface, absObjPath string) error {
+func register(absObjPath string) error {
 	conn, err := grpc.Dial(rpcSrvAddr, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -57,10 +56,7 @@ func register(iface, absObjPath string) error {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	res, err := client.RegisterPlugin(ctx, &pb.Plugin{
-		Iface:      iface,
-		AbsObjPath: absObjPath,
-	})
+	res, err := client.RegisterPlugin(ctx, &pb.Plugin{AbsObjPath: absObjPath})
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}

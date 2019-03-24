@@ -7,6 +7,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/lmuench/plg/plg"
 )
 
 func Ls() {
@@ -35,7 +37,7 @@ func Ls() {
 			if err != nil {
 				fmt.Print("↳ error: metadata (", name, ".json) is missing!\n")
 			} else {
-				var plugMeta PlugMetadata
+				var plugMeta plg.PlugMetadata
 				err = json.Unmarshal(data, &plugMeta)
 				if err != nil {
 					fmt.Print("↳ error: metadata parsing error (", err, ")\n")
