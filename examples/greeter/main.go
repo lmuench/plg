@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"github.com/lmuench/plg/rpc/server"
+
+	"github.com/lmuench/plg/plg"
+)
 
 func main() {
-	fmt.Println("hello")
+	plg := plg.NewPLG()
+	server.Run(plg)
 }

@@ -15,10 +15,8 @@ type Service struct {
 	Symb  plugin.Symbol
 }
 
-func NewPLG(plugPath string) PLG {
-	return PLG{
-		registry: registry{},
-	}
+func NewPLG() *PLG {
+	return &PLG{registry: registry{}}
 }
 
 // GetSymbol returns a symbol for the given interface name

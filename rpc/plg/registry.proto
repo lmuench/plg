@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package plg;
+
+service Registry {
+	rpc RegisterPlugin(Plugin) returns (Error) {}
+}
+
+message Plugin {
+	string iface = 1;
+	string absObjPath = 2;
+}
+
+message Error {
+	string msg = 1;
+}

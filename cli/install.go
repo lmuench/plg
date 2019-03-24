@@ -5,6 +5,17 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+
+	"context"
+	"log"
+	"time"
+
+	pb "github.com/lmuench/plg/rpc/plg"
+	"google.golang.org/grpc"
+)
+
+const (
+	rpcSrvAddr = "localhost:50051"
 )
 
 func Install(plug string) error {
@@ -13,7 +24,7 @@ func Install(plug string) error {
 		fmt.Print("error: ", plug, " could not be compiled (", err, ")\n")
 	}
 	// TODO: read iface string from metadata
-	// TODO: use gRPC to call plg.RegisterPlugin(iface, absObjPath)
+	return register("MockIFace", absObjPath)
 }
 
 func compile(name string) (string, error) {
@@ -34,4 +45,25 @@ func compile(name string) (string, error) {
 
 	absObjPath := filepath.Join(wd, obj)
 	return absObjPath, nil
+}
+
+func register(iface, absObjPath string) error {
+	conn, err := grpc.Dial(rpcSrvAddr, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	client := pb.NewRegistryClient(conn)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	res, err := client.RegisterPlugin(ctx, &pb.Plugin{
+		Iface:      iface,
+		AbsObjPath: absObjPath,
+	})
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	log.Printf("response: %s", res.Msg)
+	return nil
 }

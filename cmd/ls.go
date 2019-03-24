@@ -22,7 +22,7 @@ import (
 // lsCmd represents the ls command
 var lsCmd = &cobra.Command{
 	Use:   "ls",
-	Short: "Lists all .go files in the current working directory",
+	Short: "Lists all .go files (plugin or not) in the current working directory",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
